@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 
@@ -10,13 +9,13 @@ class SnakeGame extends StatefulWidget {
 }
 
 class _SnakeGameState extends State<SnakeGame> {
-  List<int> snakeDots = [305];
-  int numSquared = 760;
+  List<int> snakeDots = [205];
+  int numSquared = 560;
+  var duration = const Duration(milliseconds: 300);
 
   //start game
   void _startGame() {
-      snakeDots = [305];
-    const duration = const Duration(milliseconds: 300);
+    snakeDots = [205];
     Timer.periodic(duration, (Timer timer) {
       _upDate();
       if (_isGameOver()) {
@@ -32,9 +31,9 @@ class _SnakeGameState extends State<SnakeGame> {
 
   //food
   static var random = Random();
-  int food = random.nextInt(700);
+  int food = random.nextInt(500);
   void _generateNewFood() {
-    food = random.nextInt(700);
+    food = random.nextInt(500);
   }
 
   //move direction
@@ -56,13 +55,13 @@ class _SnakeGameState extends State<SnakeGame> {
         break;
       case "up":
         if (snakeDots.last < 20)
-          newDot = snakeDots.last - 20 + 740;
+          newDot = snakeDots.last - 20 + 540;
         else
           newDot = snakeDots.last - 20;
         break;
       case "down":
-        if (snakeDots.last > 740)
-          newDot = snakeDots.last + 20 - 740;
+        if (snakeDots.last > 560)
+          newDot = snakeDots.last + 20 - 540;
         else
           newDot = snakeDots.last + 20;
         break;
@@ -150,7 +149,7 @@ class _SnakeGameState extends State<SnakeGame> {
     return InkWell(
       onTap: onTap,
       child: Text(text,
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: "Pixel")),
     );
   }
 
@@ -175,7 +174,11 @@ class _SnakeGameState extends State<SnakeGame> {
             }
           },
           child: Container(
-            color: Colors.black,
+            decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border(
+                    bottom:
+                        BorderSide(width: 0.5, color: Colors.grey.shade900))),
             child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: numSquared,
@@ -184,12 +187,11 @@ class _SnakeGameState extends State<SnakeGame> {
                 itemBuilder: (BuildContext context, int index) {
                   if (snakeDots.contains(index)) {
                     return Container(
-                        padding: const EdgeInsets.all(2),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                          child: Container(color: Colors.white),
-                        ),
-                      
+                      padding: const EdgeInsets.all(2),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        child: Container(color: Colors.white),
+                      ),
                     );
                   }
                   if (index == food) {
@@ -199,22 +201,22 @@ class _SnakeGameState extends State<SnakeGame> {
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: Container(color: Colors.green)),
                     );
-                  }
-                  return Container();
+                  } else
+                    return Container();
                 }),
           ),
         )),
         Container(
           color: Colors.black,
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               InkWell(
                 onTap: _startGame,
-                child: _text("S T A R T"),
+                child: _text("S T A R T", 16.0),
               ),
-              _text("@ a  u  g  u  s  t  u  s  f  l  y  n  n")
+              _text("@ a  u  g  u  s  t  u  s      f  l  y  n  n", 12.0)
             ],
           ),
         )
@@ -222,11 +224,11 @@ class _SnakeGameState extends State<SnakeGame> {
     );
   }
 
-  _text(String text) {
+  _text(String text, double fontSize) {
     return Text(
       text,
       style: TextStyle(
-          fontSize: 10.0, color: Colors.white, fontWeight: FontWeight.bold),
+          fontSize: fontSize, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "Pixel"),
     );
   }
 }
