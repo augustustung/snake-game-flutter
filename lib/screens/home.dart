@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           Container(
             margin: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: _textCustom("S   N   A   K   E", 30.0, FontWeight.bold),
           ),
           Expanded(

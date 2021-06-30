@@ -6,10 +6,8 @@ import 'package:myapp/provider/auth.dart';
 import 'package:myapp/screens/rank.dart';
 
 import 'home.dart';
-// import 'package:myapp/provider/provider.dart';
 
 class SnakeGame extends StatefulWidget {
-  static const routeName = '/snake';
   final Duration _duration;
   final double _mode;
   SnakeGame(this._duration, this._mode);
@@ -23,23 +21,30 @@ class _SnakeGameState extends State<SnakeGame> {
   _SnakeGameState(this._duration, this._mode);
   List<int> snakeDots = [205];
   int numSquared = 560;
+  String playing = "ready";
+
+  //go back
+  void _goBack() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+  }
 
   //start game
   void _startGame() {
-    snakeDots = [205, 225, 245, 265, 285, 305, 325, 345, 365, 385, 405];
+    snakeDots = [205];
     Timer.periodic(_duration, (Timer timer) {
       _upDate();
       if (_isGameOver()) {
+        setState(() {
+          playing = "ready";
+        });
         timer.cancel();
         _showAlert();
       }
     });
-  }
-
-  void _clickWithoutFeedBack() {
     setState(() {
-      snakeDots = [205];
       direction = "left";
+      playing = "playing";
     });
   }
 
@@ -259,8 +264,9 @@ class _SnakeGameState extends State<SnakeGame> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               InkWell(
-                onTap: _startGame,
-                child: _text("S T A R T", 16.0),
+                onTap: playing == "ready" ? _startGame : _goBack,
+                child: _text(
+                    playing == "ready" ? "S T A R T" : "G O B A C K", 16.0),
               ),
               InkWell(
                   onTap: () => Navigator.push(
